@@ -57,6 +57,10 @@ class SavingsUnited {
       if (isset($mapping[$alias])) {
         $url .= '&categories=' . $mapping[$alias];
       }
+      else {
+        // Return array if the current category is not in the mapping.
+        return array();
+      }
 
       $result = drupal_http_request($url, $this->getOptions());
       return drupal_json_decode($result->data);

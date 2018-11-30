@@ -72,12 +72,12 @@ function savings_united_preprocess_block(&$variables) {
   if ($variables['block']->bid == 'savings_united-savings_united') {
     $link_text_var = variable_get('savings_united_endpoint_link_text', '');
 
-    $variables['block_title'] = $variables['block']->subject;
-    $variables['template_links'] = array();
-
     $connection = new SavingsUnited();
     $coupons = $connection->getCoupons();
+
     if (!empty($link_text_var) && !empty($coupons)) {
+      $variables['block_title'] = $variables['block']->subject;
+      $variables['template_links'] = array();
       foreach ($coupons as $key => $coupon) {
         $variables['template_links'][] = l(
           $coupon[$link_text_var],
