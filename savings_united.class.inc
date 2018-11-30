@@ -7,6 +7,8 @@ class SavingsUnited {
   protected $endpoint;
   // API token.
   protected $token;
+  // Render block only in parent path.
+  protected $only_parent_path;
   // Number of results to render.
   protected $number_results;
   // Path category mapping.
@@ -16,6 +18,7 @@ class SavingsUnited {
     $this->base_url = variable_get('savings_united_base_url', '');
     $this->endpoint = variable_get('savings_united_endpoint', '');
     $this->token = variable_get('savings_united_api_token', '');
+    $this->only_parent_path = variable_get('savings_united_mapping_only_parent', 0);
     $this->number_results = variable_get('savings_united_number_results', 5);
     $this->mapping = variable_get('savings_united_mapping', '');
   }
@@ -50,7 +53,14 @@ class SavingsUnited {
   public function getCoupons() {
     $is_admin = path_is_admin(current_path());
     if (!$is_admin) {
-      $alias = drupal_get_path_alias();
+      $alias = explode('/', drupal_get_path_alias());
+
+      // Return empty array if it's a child path and we are only rendering in the parent path.
+      if (count($alias) > 1 && $this->only_parent_path) {
+        return array();
+      }
+
+      $alias = reset($alias);
       $url = $this->base_url . $this->endpoint . '?limit=' . $this->number_results;
 
       $mapping = $this->getMapping();
@@ -58,7 +68,7 @@ class SavingsUnited {
         $url .= '&categories=' . $mapping[$alias];
       }
       else {
-        // Return array if the current category is not in the mapping.
+        // Return empty array if the current category is not in the mapping.
         return array();
       }
 

@@ -66,6 +66,12 @@ function savings_united_settings_form($form, &$form_state) {
     '#description' => t('For each path, assign one or more categories (separated by comma). One path per row. Example:<br><b>mobile-phones|gadgets,mobile-tablets,online-shopping-centres</b><br>(use slug, not category name)'),
     '#default_value' => variable_get('savings_united_mapping', ''),
   );
+  $form['configuration']['savings_united_mapping_only_parent'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Render block only in parent path'),
+    '#description' => t('Check this if you want to render the block only in the parent path.<br>Example: it will load in mobile-phones but not mobile-phones/iphone.'),
+    '#default_value' => variable_get('savings_united_mapping_only_parent', 0),
+  );
   $form['configuration']['savings_united_number_results'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of results'),
