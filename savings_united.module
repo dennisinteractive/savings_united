@@ -81,7 +81,7 @@ function savings_united_preprocess_block(&$variables) {
       foreach ($coupons as $key => $coupon) {
         $variables['template_links'][] = l(
           $coupon[$link_text_var],
-          $coupon['url'], array('attributes' => array('class' => 'coupon__link'))
+          $coupon['url'], array('attributes' => array('class' => 'coupon__link', 'rel' => 'nofollow'))
         );
       }
     }
