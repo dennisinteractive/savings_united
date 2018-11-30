@@ -1,0 +1,17 @@
+.coupons__list {
+  list-style-type: none;
+  padding-left: 0;
+}
+.coupon {
+  border-top: 1px solid #ddd;
+}
+.coupon:hover {
+  background: #f3f3f3;
+}
+.coupon__link {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  padding: 9px 6px;
+  min-height: 50px;
+}

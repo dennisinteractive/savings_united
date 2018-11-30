@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Install & updates for the Savings United module.
+ */
+
+/**
+ * Implements hook_install.
+ */
+function savings_united_install() {
+  variable_set('savings_united_base_url', 'https://api.savings-united.com/api');
+  variable_set('savings_united_endpoint', '/v1/snippet/coupons');
+  variable_set('savings_united_number_results', 5);
+  variable_set('savings_united_endpoint_link_text', 'anchor_text');
+}
+
+/**
+ * Implements hook_uninstall.
+ */
+function savings_united_uninstall() {
+  variable_del('savings_united_base_url');
+  variable_del('savings_united_api_token');
+  variable_del('savings_united_mapping');
+  variable_del('savings_united_number_results');
+  variable_del('savings_united_endpoint');
+  variable_del('savings_united_endpoint_link_text');
+}

@@ -1,0 +1,10 @@
+name = Savings United
+description = Provides integration with Savings United API.
+
+version = 7.x-1.0
+core = 7.x
+configure = admin/config/system/savings_united
+
+stylesheets[all][] = css/savings_united.css
+files[] = savings_united.class.inc
+files[] = templates/block-savings-united.tpl.php

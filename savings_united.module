@@ -1,0 +1,89 @@
+<?php
+/**
+ * @file
+ * Code for the savings_united module.
+ */
+
+/**
+ * Implements hook_menu.
+ * @return array
+ */
+function savings_united_menu() {
+  $items = array();
+  $items['admin/config/system/savings_united'] = array(
+    'title' => 'Savings United API',
+    'description' => 'Global settings for the Savings United API.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('savings_united_settings_form'),
+    'file' => 'savings_united.admin.inc',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info.
+ * @return mixed
+ */
+function savings_united_block_info() {
+  $blocks = array();
+  $blocks['savings_united'] = array(
+    'info' => t('Savings United Block'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view.
+ * @param string $delta
+ */
+function savings_united_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'savings_united':
+      $block['subject'] = t('Voucher codes');
+      // Adding ascii for white space so the block renders.
+      $block['content'] = '&nbsp;';
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function savings_united_theme() {
+  $themes['block__savings_united'] = array(
+    'template' => 'block--savings-united',
+    'original hook' => 'block',
+    'path' => drupal_get_path('module', 'savings_united') . '/templates',
+  );
+  return $themes;
+}
+
+/**
+ * Implements template_preprocess_block.
+ * @param $variables
+ */
+function savings_united_preprocess_block(&$variables) {
+  if ($variables['block']->bid == 'savings_united-savings_united') {
+    $link_text_var = variable_get('savings_united_endpoint_link_text', '');
+
+    $variables['block_title'] = $variables['block']->subject;
+    $variables['template_links'] = array();
+
+    $connection = new SavingsUnited();
+    $coupons = $connection->getCoupons();
+    if (!empty($link_text_var) && !empty($coupons)) {
+      foreach ($coupons as $key => $coupon) {
+        $variables['template_links'][] = l(
+          $coupon[$link_text_var],
+          $coupon['url'], array('attributes' => array('class' => 'coupon__link'))
+        );
+      }
+    }
+  }
+}
