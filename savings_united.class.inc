@@ -44,7 +44,7 @@ class SavingsUnited {
       $mapping_lines = explode(PHP_EOL, $this->mapping);
       foreach ($mapping_lines as $mapping_line) {
         $explode = explode('|', $mapping_line);
-        $new_array[$explode[0]] = $explode[1];
+        $new_array[$explode[0]] = trim($explode[1]);
       }
     }
     return $new_array;
@@ -68,8 +68,16 @@ class SavingsUnited {
         $url .= '&categories=' . $mapping[$alias];
       }
       else {
-        // Return empty array if the current category is not in the mapping.
-        return array();
+        // Calling all modules implementing hook_savings_united_alter():
+        drupal_alter('savings_united', $url);
+        $parse_url = drupal_parse_url($url);
+        // Return empty array if the current category is not in the mapping and there's no implementations of the hook.
+        if ((!isset($parse_url['query']['categories']))) {
+          return array();
+        }
+      }
+      if (variable_get('savings_united_enable_debug', 0) == 1) {
+        drupal_set_message($url);
       }
 
       $result = drupal_http_request($url, $this->getOptions());
