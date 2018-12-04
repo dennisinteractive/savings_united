@@ -19,6 +19,7 @@ function savings_united_install() {
  * Implements hook_uninstall.
  */
 function savings_united_uninstall() {
+  variable_del('savings_united_enable_debug');
   variable_del('savings_united_base_url');
   variable_del('savings_united_api_token');
   variable_del('savings_united_mapping');
