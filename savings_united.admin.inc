@@ -42,6 +42,12 @@ function savings_united_settings_form($form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
+  $form['configuration']['savings_united_enable_debug'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable debug'),
+    '#default_value' => variable_get('savings_united_enable_debug', 0),
+    '#description' => t('When enabled, it shows the full url with parameters used in the API.')
+  );
   $form['configuration']['savings_united_base_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Base url'),
