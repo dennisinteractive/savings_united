@@ -25,6 +25,7 @@ function savings_united_uninstall() {
   variable_del('savings_united_mapping');
   variable_del('savings_united_mapping_only_parent');
   variable_del('savings_united_number_results');
+  variable_del('savings_united_add_nofollow');
   variable_del('savings_united_endpoint');
   variable_del('savings_united_endpoint_link_text');
 }

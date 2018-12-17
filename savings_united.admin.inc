@@ -87,6 +87,12 @@ function savings_united_settings_form($form, &$form_state) {
     '#description' => t('Number of results you want to display in the block.'),
     '#required' => TRUE,
   );
+  $form['configuration']['savings_united_add_nofollow'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Add nofollow to links'),
+    '#description' => t('If checked, rel="nofollow" will be added to links.'),
+    '#default_value' => variable_get('savings_united_add_nofollow', 0),
+  );
 
   // Endpoints.
   $form['endpoints'] = array(

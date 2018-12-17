@@ -71,6 +71,7 @@ function savings_united_theme() {
 function savings_united_preprocess_block(&$variables) {
   if ($variables['block']->bid == 'savings_united-savings_united') {
     $link_text_var = variable_get('savings_united_endpoint_link_text', '');
+    $nofollow = variable_get('savings_united_add_nofollow', 0);
 
     $connection = new SavingsUnited();
     $coupons = $connection->getCoupons();
@@ -79,9 +80,16 @@ function savings_united_preprocess_block(&$variables) {
       $variables['block_title'] = $variables['block']->subject;
       $variables['template_links'] = array();
       foreach ($coupons as $key => $coupon) {
+        $coupon_attributes = array(
+          'attributes' => array('class' => 'coupon__link')
+        );
+        if ($nofollow) {
+          $coupon_attributes['attributes']['rel'] = 'nofollow';
+        }
         $variables['template_links'][] = l(
           $coupon[$link_text_var],
-          $coupon['url'], array('attributes' => array('class' => 'coupon__link', 'rel' => 'nofollow'))
+          $coupon['url'],
+          $coupon_attributes
         );
       }
     }
