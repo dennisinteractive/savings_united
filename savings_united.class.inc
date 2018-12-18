@@ -80,8 +80,22 @@ class SavingsUnited {
         drupal_set_message($url);
       }
 
+      // Fetch from cache.
+      $cache_key = 'savings_united:api:' . md5($url);
+      $cache_time = (int) variable_get('savings_united_cache', 60) * 60;
+      if (!empty($cache_time) && $cache = cache_get($cache_key, 'cache')) {
+        return $cache->data;
+      }
+
+      // Perform API request and cache result.
       $result = drupal_http_request($url, $this->getOptions());
-      return drupal_json_decode($result->data);
+      $data = drupal_json_decode($result->data);
+
+      if (!empty($cache_time)) {
+        cache_set($cache_key, $data, 'cache', time() + $cache_time);
+      }
+
+      return $data;
     }
   }
 }
