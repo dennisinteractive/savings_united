@@ -28,4 +28,5 @@ function savings_united_uninstall() {
   variable_del('savings_united_add_nofollow');
   variable_del('savings_united_endpoint');
   variable_del('savings_united_endpoint_link_text');
+  variable_del('savings_united_cache');
 }
