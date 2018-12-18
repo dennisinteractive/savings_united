@@ -93,6 +93,13 @@ function savings_united_settings_form($form, &$form_state) {
     '#description' => t('If checked, rel="nofollow" will be added to links.'),
     '#default_value' => variable_get('savings_united_add_nofollow', 0),
   );
+  $form['configuration']['savings_united_cache'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Cache lifetime (minutes)'),
+    '#description' => t('How long the API requests will be cached for.'),
+    '#element_validate' => array('element_validate_integer'),
+    '#default_value' => variable_get('savings_united_cache', 60),
+  );
 
   // Endpoints.
   $form['endpoints'] = array(
